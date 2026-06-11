@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuckoo Facial – فرم مشاوره پوست</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream:     #F7F3EE;
+    --warm-white:#FDFAF7;
+    --sage:      #8FA68E;
+    --sage-light:#C8D8C6;
+    --sage-dark: #5C7A5B;
+    --gold:      #C9A96E;
+    --gold-light:#E8D5B0;
+    --charcoal:  #2E2E2E;
+    --mid:       #6B6B6B;
+    --light:     #A8A8A8;
+    --error:     #C0604A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(160deg, #f0ebe3 0%, #e8f0e7 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,169,110,.12) 0%, transparent 70%);
+    top: -100px; left: -100px;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(143,166,142,.15) 0%, transparent 70%);
+    bottom: -80px; right: -80px;
+  }
+  .brand-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.55rem;
+    font-weight: 300;
+    letter-spacing: .18em;
+    color: var(--sage-dark);
+    text-transform: uppercase;
+    position: relative; z-index: 1;
+    margin-bottom: .3rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .brand-logo .bird { font-size: 1.2rem; animation: sway 3s ease-in-out infinite; display: inline-block; }
+  @keyframes sway {
+    0%,100% { transform: rotate(-8deg); }
+    50%      { transform: rotate(8deg); }
+  }
+  .brand-tagline {
+    font-size: .72rem;
+    letter-spacing: .2em;
+    color: var(--light);
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    position: relative; z-index: 1;
+  }
+
+  .cover-badge {
+    font-size: .75rem;
+    letter-spacing: .12em;
+    color: var(--sage-dark);
+    text-transform: uppercase;
+    border: 1px solid var(--sage-light);
+    padding: .35rem 1.1rem;
+    border-radius: 50px;
+    margin-bottom: 2.5rem;
+    position: relative; z-index: 1;
+  }
+  .cover h1 {
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.4;
+    color: var(--charcoal);
+    margin-bottom: 1rem;
+    position: relative; z-index: 1;
+  }
+  .cover h1 span { color: var(--sage-dark); font-weight: 600; }
+  .cover p {
+    font-size: 1rem;
+    color: var(--mid);
+    max-width: 420px;
+    line-height: 1.8;
+    margin-bottom: 2.8rem;
+    position: relative; z-index: 1;
+  }
+  .btn-start {
+    background: var(--sage-dark);
+    color: white;
+    border: none;
+    padding: 1rem 2.8rem;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .3s;
+    position: relative; z-index: 1;
+    letter-spacing: .03em;
+    box-shadow: 0 4px 20px rgba(92,122,91,.25);
+  }
+  .btn-start:hover { background: var(--sage); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(92,122,91,.3); }
+  .cover-note {
+    margin-top: 1.8rem;
+    font-size: .82rem;
+    color: var(--light);
+    position: relative; z-index: 1;
+  }
+
+  /* ── FORM WRAPPER ── */
+  .form-wrapper {
+    display: none;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 6rem;
+  }
+  .form-wrapper.active { display: block; }
+
+  /* ── PROGRESS ── */
+  .progress-bar-wrap {
+    position: sticky;
+    top: 0;
+    background: rgba(247,243,238,.95);
+    backdrop-filter: blur(8px);
+    padding: 1rem 0 .8rem;
+    z-index: 100;
+    margin-bottom: 2.5rem;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: .5rem;
+  }
+  .progress-label { font-size: .82rem; color: var(--mid); }
+  .progress-step { font-size: .82rem; color: var(--sage-dark); font-weight: 600; }
+  .progress-track {
+    height: 3px;
+    background: var(--sage-light);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sage-dark), var(--gold));
+    border-radius: 10px;
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    display: none;
+    animation: fadeUp .45s ease both;
+  }
+  .section.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-eyebrow {
+    font-size: .72rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: .6rem;
+    font-weight: 600;
+  }
+  .section-title {
+    font-size: 1.55rem;
+    font-weight: 600;
+    margin-bottom: .5rem;
+    color: var(--charcoal);
+    line-height: 1.4;
+  }
+  .section-subtitle {
+    font-size: .9rem;
+    color: var(--mid);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  /* ── FIELD ── */
+  .field { margin-bottom: 1.6rem; }
+  .field-label {
+    display: block;
+    font-size: .88rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: .45rem;
+  }
+  .field-hint {
+    font-size: .78rem;
+    color: var(--light);
+    margin-bottom: .45rem;
+    display: block;
+  }
+  input[type="text"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    background: var(--warm-white);
+    border: 1.5px solid #DDD6CE;
+    border-radius: 12px;
+    padding: .85rem 1.1rem;
+    font-family: inherit;
+    font-size: .95rem;
+    color: var(--charcoal);
+    direction: rtl;
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--sage);
+    box-shadow: 0 0 0 3px rgba(143,166,142,.18);
+  }
+  textarea { min-height: 90px; resize: vertical; line-height: 1.7; }
+  select { cursor: pointer; }
+
+  /* ── CHIP OPTIONS ── */
+  .chip-group { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .2rem; }
+  .chip {
+    padding: .55rem 1.1rem;
+    border-radius: 50px;
+    border: 1.5px solid #DDD6CE;
+    background: var(--warm-white);
+    font-family: inherit;
+    font-size: .85rem;
+    cursor: pointer;
+    transition: all .2s;
+    color: var(--mid);
+    user-select: none;
+  }
+  .chip:hover { border-color: var(--sage); color: var(--sage-dark); }
+  .chip.selected {
+    background: var(--sage-dark);
+    border-color: var(--sage-dark);
+    color: white;
+    font-weight: 500;
+  }
+  .chip.multi.selected { background: var(--sage-dark); }
+
+  /* ── SCALE ── */
+  .scale-wrap { display: flex; gap: .5rem; margin-top: .4rem; align-items: center; }
+  .scale-btn {
+    flex: 1;
+    height: 44px;
+    border-radius: 10px;
+    border: 1.5px solid #DDD6CE;
+    background: var(--warm-white);
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    color: var(--mid);
+  }
+  .scale-btn:hover { border-color: var(--sage); color: var(--sage-dark); }
+  .scale-btn.selected { background: var(--sage-dark); border-color: var(--sage-dark); color: white; }
+  .scale-labels { display: flex; justify-content: space-between; font-size: .72rem; color: var(--light); margin-top: .3rem; }
+
+  /* ── CARD ROW ── */
+  .card-group { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+  @media(max-width:480px) { .card-group { grid-template-columns: 1fr; } }
+  .card-opt {
+    border: 1.5px solid #DDD6CE;
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+    background: var(--warm-white);
+    cursor: pointer;
+    transition: all .2s;
+    text-align: right;
+  }
+  .card-opt:hover { border-color: var(--sage); background: #f0f4f0; }
+  .card-opt.selected { border-color: var(--sage-dark); background: #edf2ed; }
+  .card-opt .card-icon { font-size: 1.5rem; margin-bottom: .4rem; }
+  .card-opt .card-title { font-size: .88rem; font-weight: 600; color: var(--charcoal); }
+  .card-opt .card-desc { font-size: .76rem; color: var(--light); margin-top: .2rem; line-height: 1.5; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid #E5DDD4;
+    margin: 1.8rem 0;
+  }
+
+  /* ── CONSENT TOGGLE ── */
+  .consent-item {
+    display: flex;
+    align-items: flex-start;
+    gap: .9rem;
+    padding: 1rem 1.1rem;
+    background: var(--warm-white);
+    border: 1.5px solid #DDD6CE;
+    border-radius: 12px;
+    margin-bottom: .8rem;
+    cursor: pointer;
+    transition: border-color .2s;
+  }
+  .consent-item:hover { border-color: var(--sage); }
+  .consent-item.checked { border-color: var(--sage-dark); background: #edf2ed; }
+  .consent-check {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    border: 2px solid #DDD6CE;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+    margin-top: .1rem;
+  }
+  .consent-item.checked .consent-check {
+    background: var(--sage-dark);
+    border-color: var(--sage-dark);
+  }
+  .consent-check::after {
+    content: '✓';
+    color: white;
+    font-size: .8rem;
+    display: none;
+  }
+  .consent-item.checked .consent-check::after { display: block; }
+  .consent-text { font-size: .85rem; line-height: 1.7; color: var(--charcoal); }
+  .consent-text strong { color: var(--sage-dark); }
+
+  /* ── NAVIGATION ── */
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2.5rem;
+    gap: 1rem;
+  }
+  .btn-back {
+    background: none;
+    border: 1.5px solid #DDD6CE;
+    color: var(--mid);
+    padding: .85rem 1.6rem;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: .9rem;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-back:hover { border-color: var(--sage); color: var(--sage-dark); }
+  .btn-next {
+    background: var(--sage-dark);
+    color: white;
+    border: none;
+    padding: .85rem 2.2rem;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .25s;
+    flex: 1;
+    max-width: 200px;
+    box-shadow: 0 4px 14px rgba(92,122,91,.2);
+  }
+  .btn-next:hover { background: var(--sage); transform: translateY(-1px); }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--sage-dark), var(--gold));
+    color: white;
+    border: none;
+    padding: .85rem 2.2rem;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: .95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .25s;
+    flex: 1;
+    max-width: 220px;
+    box-shadow: 0 4px 20px rgba(92,122,91,.3);
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(92,122,91,.35); }
+
+  /* ── SUMMARY CARD ── */
+  .summary-wrap { display: none; }
+  .summary-wrap.active {
+    display: block;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+  }
+  .summary-hero {
+    text-align: center;
+    padding: 2.5rem 1rem 2rem;
+  }
+  .summary-icon { font-size: 3rem; margin-bottom: 1rem; }
+  .summary-hero h2 { font-size: 1.6rem; font-weight: 600; margin-bottom: .5rem; }
+  .summary-hero p { color: var(--mid); font-size: .9rem; line-height: 1.7; }
+
+  .summary-section {
+    background: var(--warm-white);
+    border-radius: 16px;
+    padding: 1.4rem 1.5rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid #E5DDD4;
+  }
+  .summary-section h3 {
+    font-size: .78rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: .4rem 0;
+    border-bottom: 1px solid #F0EAE2;
+    gap: 1rem;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-key { font-size: .83rem; color: var(--mid); white-space: nowrap; }
+  .summary-val { font-size: .85rem; color: var(--charcoal); font-weight: 500; text-align: left; }
+
+  .therapist-note {
+    background: linear-gradient(135deg, #edf2ed, #f7f3e8);
+    border: 1.5px solid var(--sage-light);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .therapist-note h3 {
+    font-size: .85rem;
+    color: var(--sage-dark);
+    font-weight: 600;
+    margin-bottom: .8rem;
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .therapist-note ul {
+    list-style: none;
+    display: flex; flex-direction: column; gap: .5rem;
+  }
+  .therapist-note ul li {
+    font-size: .85rem;
+    color: var(--charcoal);
+    padding-right: 1.2rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .therapist-note ul li::before {
+    content: '•';
+    color: var(--gold);
+    position: absolute;
+    right: 0;
+    font-size: 1rem;
+  }
+
+  .print-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    width: 100%;
+    margin-top: 1.5rem;
+    background: none;
+    border: 1.5px solid var(--sage-dark);
+    color: var(--sage-dark);
+    padding: .9rem;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .print-btn:hover { background: var(--sage-dark); color: white; }
+
+  @media print {
+    .print-btn, .progress-bar-wrap { display: none !important; }
+    body { background: white; }
+    .summary-wrap { padding: 0 !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="cover" id="cover">
+  <div class="brand-logo"><span class="bird">🐦</span> Cuckoo Facial</div>
+  <div class="brand-tagline">skin · care · ritual</div>
+  <div class="cover-badge">✦ فرم مشاوره پوست</div>
+  <h1>پوستت رو<br><span>بهتر بشناسیم</span></h1>
+  <p>چند دقیقه وقت بذار تا ما بتونیم بهترین تجربه مراقبت از پوست رو برات طراحی کنیم. هیچ سوالی بدون هدف نیست.</p>
+  <button class="btn-start" onclick="startForm()">شروع کن ←</button>
+  <p class="cover-note">⏱ حدود ۴ دقیقه · ۶ بخش کوتاه</p>
+</div>
+
+<!-- ══ FORM ══ -->
+<div class="form-wrapper" id="formWrapper">
+
+  <!-- Progress -->
+  <div class="progress-bar-wrap">
+    <div class="progress-meta">
+      <span class="progress-label" id="progressLabel">اطلاعات پایه</span>
+      <span class="progress-step" id="progressStep">۱ از ۶</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <!-- ── STEP 1: اطلاعات پایه ── -->
+  <div class="section active" id="step1">
+    <div class="section-eyebrow">بخش اول</div>
+    <div class="section-title">بیا آشنا بشیم 👋</div>
+    <div class="section-subtitle">اطلاعات پایه‌ای که بهمون کمک می‌کنه تجربه‌ات رو شخصی‌سازی کنیم.</div>
+
+    <div class="field">
+      <label class="field-label">اسم کامل</label>
+      <input type="text" id="f_name" placeholder="نام و نام خانوادگی">
+    </div>
+    <div class="field">
+      <label class="field-label">شماره تماس</label>
+      <input type="tel" id="f_phone" placeholder="۰۹۱۲...">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="field">
+        <label class="field-label">سن</label>
+        <input type="number" id="f_age" placeholder="مثلاً ۲۸" min="10" max="90">
+      </div>
+      <div class="field">
+        <label class="field-label">جنسیت</label>
+        <select id="f_gender">
+          <option value="">انتخاب کن</option>
+          <option>زن</option>
+          <option>مرد</option>
+          <option>ترجیح می‌دم نگم</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">چطور با ما آشنا شدی؟</label>
+      <div class="chip-group" id="ref_chips">
+        <div class="chip" onclick="selectChip(this,'ref_chips',false)">اینستاگرام</div>
+        <div class="chip" onclick="selectChip(this,'ref_chips',false)">معرفی دوست</div>
+        <div class="chip" onclick="selectChip(this,'ref_chips',false)">گوگل</div>
+        <div class="chip" onclick="selectChip(this,'ref_chips',false)">مشتری قبلی</div>
+        <div class="chip" onclick="selectChip(this,'ref_chips',false)">سایر</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <div></div>
+      <button class="btn-next" onclick="nextStep(1)">بعدی ←</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: نوع پوست ── -->
+  <div class="section" id="step2">
+    <div class="section-eyebrow">بخش دوم</div>
+    <div class="section-title">پوستت چه احساسی داره؟ 🌿</div>
+    <div class="section-subtitle">نگران نباش اگه مطمئن نیستی — تراپیست تو ارزیابی دقیق‌تری هم انجام میده.</div>
+
+    <div class="field">
+      <label class="field-label">نوع پوستت رو چطور توصیف می‌کنی؟</label>
+      <div class="card-group" id="skin_type">
+        <div class="card-opt" onclick="selectCard(this,'skin_type',false)">
+          <div class="card-icon">💧</div>
+          <div class="card-title">خشک</div>
+          <div class="card-desc">کشیدگی، پوسته‌ریزی، احساس خشکی</div>
+        </div>
+        <div class="card-opt" onclick="selectCard(this,'skin_type',false)">
+          <div class="card-icon">✨</div>
+          <div class="card-title">چرب</div>
+          <div class="card-desc">براقی، منافذ باز، جوش</div>
+        </div>
+        <div class="card-opt" onclick="selectCard(this,'skin_type',false)">
+          <div class="card-icon">⚖️</div>
+          <div class="card-title">ترکیبی</div>
+          <div class="card-desc">T-zone چرب، گونه‌ها خشک</div>
+        </div>
+        <div class="card-opt" onclick="selectCard(this,'skin_type',false)">
+          <div class="card-icon">🌸</div>
+          <div class="card-title">معمولی</div>
+          <div class="card-desc">متعادل، بدون مشکل خاص</div>
+        </div>
+        <div class="card-opt" onclick="selectCard(this,'skin_type',false)">
+          <div class="card-icon">🔴</div>
+          <div class="card-title">حساس</div>
+          <div class="card-desc">قرمزی، واکنش، سوزش</div>
+        </div>
+        <div class="card-opt" onclick="selectCard(this,'skin_type',false)">
+          <div class="card-icon">🤷</div>
+          <div class="card-title">نمی‌دونم</div>
+          <div class="card-desc">بذار تراپیست تشخیص بده</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="field">
+      <label class="field-label">دغدغه‌های اصلی پوستت (می‌تونی چند تا انتخاب کنی)</label>
+      <div class="chip-group" id="concerns">
+        <div class="chip multi" onclick="selectChip(this,'concerns',true)">جوش و آکنه</div>
+        <div class="chip multi" onclick="selectChip(this,'concerns',true)">لک و تیرگی</div>
+        <div class="chip multi" onclick="selectChip(this,'concerns',true)">چین و چروک</div>
+        <div class="chip multi" onclick="selectChip(this,'concerns',true)">منافذ باز</div>
+        <div class="chip multi" onclick="selectChip(this,'concerns',true)">جای جوش</div>
+        <div class="chip multi" onclick="selectChip(this,'concerns',true)">دور چشم</div>
+        <div class="chip multi" onclick="selectChip(this,'concerns',true)">خشکی</div>
+        <div class="chip multi" onclick="selectChip(this,'concerns',true)">قرمزی / رزاسه</div>
+        <div class="chip multi" onclick="selectChip(this,'concerns',true)">افتادگی</div>
+        <div class="chip multi" onclick="selectChip(this,'concerns',true)">یکنواخت نبودن رنگ</div>
+        <div class="chip multi" onclick="selectChip(this,'concerns',true)">جوان‌سازی کلی</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">امروز چه هدفی از سرویس داری؟</label>
+      <div class="chip-group" id="goal_today">
+        <div class="chip" onclick="selectChip(this,'goal_today',false)">پاکسازی عمیق</div>
+        <div class="chip" onclick="selectChip(this,'goal_today',false)">آبرسانی و تغذیه</div>
+        <div class="chip" onclick="selectChip(this,'goal_today',false)">درمان جوش</div>
+        <div class="chip" onclick="selectChip(this,'goal_today',false)">روشن‌کنندگی</div>
+        <div class="chip" onclick="selectChip(this,'goal_today',false)">آرامش و ریلکس</div>
+        <div class="chip" onclick="selectChip(this,'goal_today',false)">مشاوره تخصصی</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-back" onclick="prevStep(2)">← قبلی</button>
+      <button class="btn-next" onclick="nextStep(2)">بعدی ←</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: سلامت و سابقه ── -->
+  <div class="section" id="step3">
+    <div class="section-eyebrow">بخش سوم</div>
+    <div class="section-title">سلامت و سابقه پوست 🩺</div>
+    <div class="section-subtitle">این اطلاعات کاملاً محرمانه‌ست و فقط برای ایمنی و کیفیت درمانت استفاده میشه.</div>
+
+    <div class="field">
+      <label class="field-label">آیا سابقه بیماری پوستی خاصی داری؟ (می‌تونی چند تا انتخاب کنی)</label>
+      <div class="chip-group" id="skin_conditions">
+        <div class="chip multi" onclick="selectChip(this,'skin_conditions',true)">خیر</div>
+        <div class="chip multi" onclick="selectChip(this,'skin_conditions',true)">اگزما / درماتیت</div>
+        <div class="chip multi" onclick="selectChip(this,'skin_conditions',true)">رزاسه</div>
+        <div class="chip multi" onclick="selectChip(this,'skin_conditions',true)">پسوریازیس</div>
+        <div class="chip multi" onclick="selectChip(this,'skin_conditions',true)">ویتیلیگو</div>
+        <div class="chip multi" onclick="selectChip(this,'skin_conditions',true)">هرپس / تبخال</div>
+        <div class="chip multi" onclick="selectChip(this,'skin_conditions',true)">حساسیت تماسی</div>
+        <div class="chip multi" onclick="selectChip(this,'skin_conditions',true)">سایر</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">آیا اخیراً از دارو یا مکمل خاصی استفاده می‌کنی؟</label>
+      <div class="chip-group" id="medications">
+        <div class="chip multi" onclick="selectChip(this,'medications',true)">خیر</div>
+        <div class="chip multi" onclick="selectChip(this,'medications',true)">رتینوئید / رتینول</div>
+        <div class="chip multi" onclick="selectChip(this,'medications',true)">آنتی‌بیوتیک</div>
+        <div class="chip multi" onclick="selectChip(this,'medications',true)">ایزوترتینوئین (روآکوتان)</div>
+        <div class="chip multi" onclick="selectChip(this,'medications',true)">ضدانعقاد خون</div>
+        <div class="chip multi" onclick="selectChip(this,'medications',true)">داروی فشارخون</div>
+        <div class="chip multi" onclick="selectChip(this,'medications',true)">کورتیکواستروئید</div>
+        <div class="chip multi" onclick="selectChip(this,'medications',true)">سایر</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">آیا در ۱۴ روز گذشته موارد زیر داشتی؟ (می‌تونی چند تا انتخاب کنی)</label>
+      <div class="chip-group" id="recent_procedures">
+        <div class="chip multi" onclick="selectChip(this,'recent_procedures',true)">خیر</div>
+        <div class="chip multi" onclick="selectChip(this,'recent_procedures',true)">لایه‌برداری شیمیایی</div>
+        <div class="chip multi" onclick="selectChip(this,'recent_procedures',true)">بوتاکس / فیلر</div>
+        <div class="chip multi" onclick="selectChip(this,'recent_procedures',true)">لیزر</div>
+        <div class="chip multi" onclick="selectChip(this,'recent_procedures',true)">تتو / اصلاح ابرو</div>
+        <div class="chip multi" onclick="selectChip(this,'recent_procedures',true)">آفتاب‌سوختگی</div>
+        <div class="chip multi" onclick="selectChip(this,'recent_procedures',true)">تزریق مزوتراپی</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">بارداری یا شیردهی؟</label>
+      <div class="chip-group" id="pregnancy">
+        <div class="chip" onclick="selectChip(this,'pregnancy',false)">خیر</div>
+        <div class="chip" onclick="selectChip(this,'pregnancy',false)">بله، بارداری</div>
+        <div class="chip" onclick="selectChip(this,'pregnancy',false)">بله، شیردهی</div>
+        <div class="chip" onclick="selectChip(this,'pregnancy',false)">ترجیح می‌دم نگم</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">آلرژی شناخته‌شده؟</label>
+      <span class="field-hint">اگه حساسیتی به ماده خاصی داری بنویس (اختیاری)</span>
+      <input type="text" id="f_allergies" placeholder="مثلاً: لانولین، اسانس رز، نیکل...">
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-back" onclick="prevStep(3)">← قبلی</button>
+      <button class="btn-next" onclick="nextStep(3)">بعدی ←</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: روتین مراقبتی ── -->
+  <div class="section" id="step4">
+    <div class="section-eyebrow">بخش چهارم</div>
+    <div class="section-title">روتین مراقبت از پوستت 🧴</div>
+    <div class="section-subtitle">بدون قضاوت! هر روتینی که داشته باشی مفیده تا ما رو راهنمایی کنه.</div>
+
+    <div class="field">
+      <label class="field-label">الان چه روتین مراقبتی داری؟</label>
+      <div class="chip-group" id="current_routine">
+        <div class="chip" onclick="selectChip(this,'current_routine',false)">هیچی نمی‌زنم</div>
+        <div class="chip" onclick="selectChip(this,'current_routine',false)">فقط شستشو</div>
+        <div class="chip" onclick="selectChip(this,'current_routine',false)">پایه (کرم + ضدآفتاب)</div>
+        <div class="chip" onclick="selectChip(this,'current_routine',false)">متوسط (چند محصول)</div>
+        <div class="chip" onclick="selectChip(this,'current_routine',false)">کامل (صبح و شب)</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">از ضدآفتاب روزانه استفاده می‌کنی؟</label>
+      <div class="chip-group" id="sunscreen">
+        <div class="chip" onclick="selectChip(this,'sunscreen',false)">همیشه ✅</div>
+        <div class="chip" onclick="selectChip(this,'sunscreen',false)">گاهی</div>
+        <div class="chip" onclick="selectChip(this,'sunscreen',false)">خیر</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">قبلاً فیشیال حرفه‌ای داشتی؟</label>
+      <div class="chip-group" id="prev_facial">
+        <div class="chip" onclick="selectChip(this,'prev_facial',false)">خیر، اولین باره</div>
+        <div class="chip" onclick="selectChip(this,'prev_facial',false)">کمتر از ۳ بار</div>
+        <div class="chip" onclick="selectChip(this,'prev_facial',false)">منظم انجام میدم</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">پوستت نسبت به محصولات جدید واکنش نشون میده؟</label>
+      <div class="chip-group" id="skin_reaction">
+        <div class="chip" onclick="selectChip(this,'skin_reaction',false)">خیر، مقاوم‌ه</div>
+        <div class="chip" onclick="selectChip(this,'skin_reaction',false)">گاهی قرمز میشه</div>
+        <div class="chip" onclick="selectChip(this,'skin_reaction',false)">اغلب واکنش داره</div>
+        <div class="chip" onclick="selectChip(this,'skin_reaction',false)">مطمئن نیستم</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-back" onclick="prevStep(4)">← قبلی</button>
+      <button class="btn-next" onclick="nextStep(4)">بعدی ←</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 5: سبک زندگی ── -->
+  <div class="section" id="step5">
+    <div class="section-eyebrow">بخش پنجم</div>
+    <div class="section-title">سبک زندگی‌ات چطوره؟ 🌙</div>
+    <div class="section-subtitle">پوست آینه‌ی زندگیه — این سوالا کمک می‌کنه ریشه مشکلات رو پیدا کنیم.</div>
+
+    <div class="field">
+      <label class="field-label">چقدر آب می‌نوشی؟</label>
+      <div class="chip-group" id="water">
+        <div class="chip" onclick="selectChip(this,'water',false)">کم (کمتر از ۱ لیتر)</div>
+        <div class="chip" onclick="selectChip(this,'water',false)">متوسط (۱-۲ لیتر)</div>
+        <div class="chip" onclick="selectChip(this,'water',false)">خوب (بیشتر از ۲ لیتر)</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">کیفیت خوابت چطوره؟</label>
+      <div class="chip-group" id="sleep">
+        <div class="chip" onclick="selectChip(this,'sleep',false)">کمتر از ۶ ساعت</div>
+        <div class="chip" onclick="selectChip(this,'sleep',false)">۶-۸ ساعت</div>
+        <div class="chip" onclick="selectChip(this,'sleep',false)">بیشتر از ۸ ساعت</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">سطح استرس روزانه‌ات رو ارزیابی کن</label>
+      <div class="scale-wrap" id="stress_scale">
+        <button class="scale-btn" onclick="selectScale(this,'stress_scale')">۱</button>
+        <button class="scale-btn" onclick="selectScale(this,'stress_scale')">۲</button>
+        <button class="scale-btn" onclick="selectScale(this,'stress_scale')">۳</button>
+        <button class="scale-btn" onclick="selectScale(this,'stress_scale')">۴</button>
+        <button class="scale-btn" onclick="selectScale(this,'stress_scale')">۵</button>
+      </div>
+      <div class="scale-labels"><span>خیلی کم 😌</span><span>خیلی زیاد 😰</span></div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">تغذیه‌ات رو چطور توصیف می‌کنی؟</label>
+      <div class="chip-group" id="diet">
+        <div class="chip" onclick="selectChip(this,'diet',false)">خیلی شیرین/فست‌فود</div>
+        <div class="chip" onclick="selectChip(this,'diet',false)">معمولی</div>
+        <div class="chip" onclick="selectChip(this,'diet',false)">سالم و متعادل</div>
+        <div class="chip" onclick="selectChip(this,'diet',false)">رژیم خاص دارم</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">محیط کار یا زندگیت چطوره؟</label>
+      <div class="chip-group" id="environment">
+        <div class="chip multi" onclick="selectChip(this,'environment',true)">دفتر / پشت کامپیوتر</div>
+        <div class="chip multi" onclick="selectChip(this,'environment',true)">آفتاب زیاد</div>
+        <div class="chip multi" onclick="selectChip(this,'environment',true)">هوای آلوده</div>
+        <div class="chip multi" onclick="selectChip(this,'environment',true)">محیط خشک</div>
+        <div class="chip multi" onclick="selectChip(this,'environment',true)">هوای مرطوب</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-back" onclick="prevStep(5)">← قبلی</button>
+      <button class="btn-next" onclick="nextStep(5)">بعدی ←</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 6: رضایت و موافقت ── -->
+  <div class="section" id="step6">
+    <div class="section-eyebrow">بخش آخر</div>
+    <div class="section-title">تقریباً تمومه! 🎉</div>
+    <div class="section-subtitle">یه توضیح آزاد بنویس و موافقت‌های لازم رو تأیید کن.</div>
+
+    <div class="field">
+      <label class="field-label">چیزی هست که بخوای تراپیستت بدونه؟</label>
+      <span class="field-hint">هر چیزی که فکر می‌کنی مهمه، اینجا بنویس</span>
+      <textarea id="f_notes" placeholder="مثلاً: آلرژی خاصی دارم، در مورد پوستم نگران این هستم، انتظارم اینه که..."></textarea>
+    </div>
+
+    <hr class="divider">
+
+    <div class="field">
+      <label class="field-label" style="margin-bottom:.8rem;">موافقت‌ها</label>
+
+      <div class="consent-item" onclick="toggleConsent(this)" id="c1">
+        <div class="consent-check"></div>
+        <div class="consent-text"><strong>مراقبت از داده‌ها:</strong> موافقم اطلاعاتم به صورت محرمانه نگهداری بشه و صرفاً برای خدمات استفاده بشه.</div>
+      </div>
+      <div class="consent-item" onclick="toggleConsent(this)" id="c2">
+        <div class="consent-check"></div>
+        <div class="consent-text"><strong>اطلاعات پزشکی:</strong> تأیید می‌کنم اطلاعات سلامتم رو صادقانه وارد کردم و در صورت هرگونه تغییر اطلاع می‌دم.</div>
+      </div>
+      <div class="consent-item" onclick="toggleConsent(this)" id="c3">
+        <div class="consent-check"></div>
+        <div class="consent-text"><strong>رضایت‌نامه درمان:</strong> با انجام پروتکل‌های پیشنهادی توسط تراپیست موافقم و در صورت ناراحتی اطلاع می‌دم.</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-back" onclick="prevStep(6)">← قبلی</button>
+      <button class="btn-submit" onclick="submitForm()">ثبت و مشاهده خلاصه ✓</button>
+    </div>
+  </div>
+
+</div><!-- /form-wrapper -->
+
+<!-- ══ SUMMARY ══ -->
+<div class="summary-wrap" id="summaryWrap">
+  <div class="summary-hero">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;letter-spacing:.18em;color:var(--sage-dark);text-transform:uppercase;margin-bottom:.3rem;">🐦 Cuckoo Facial</div>
+    <div class="summary-icon">🌿</div>
+    <h2>فرم تکمیل شد!</h2>
+    <p>اطلاعاتت ثبت شد. تراپیستت این خلاصه رو قبل از جلسه مرور می‌کنه.</p>
+  </div>
+
+  <div class="summary-section" id="sum_basic">
+    <h3>اطلاعات پایه</h3>
+    <div id="sum_basic_content"></div>
+  </div>
+
+  <div class="summary-section" id="sum_skin">
+    <h3>پوست و دغدغه‌ها</h3>
+    <div id="sum_skin_content"></div>
+  </div>
+
+  <div class="summary-section" id="sum_health">
+    <h3>سلامت و سابقه</h3>
+    <div id="sum_health_content"></div>
+  </div>
+
+  <div class="summary-section" id="sum_lifestyle">
+    <h3>سبک زندگی</h3>
+    <div id="sum_lifestyle_content"></div>
+  </div>
+
+  <div class="therapist-note" id="therapistAlert" style="display:none">
+    <h3>⚠️ نکات مهم برای تراپیست</h3>
+    <ul id="therapistAlertList"></ul>
+  </div>
+
+  <div class="therapist-note" id="therapistTips">
+    <h3>📋 پیشنهادات تراپیست بر اساس پروفایل</h3>
+    <ul id="therapistTipsList"></ul>
+  </div>
+
+  <button class="print-btn" onclick="window.print()">🖨️ چاپ / ذخیره به عنوان PDF</button>
+</div>
+
+<script>
+let currentStep = 1;
+const totalSteps = 6;
+
+const stepLabels = ['اطلاعات پایه','نوع پوست','سلامت و سابقه','روتین مراقبتی','سبک زندگی','رضایت'];
+const toPersianNum = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+
+function startForm() {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('formWrapper').classList.add('active');
+  updateProgress(1);
+}
+
+function updateProgress(step) {
+  document.getElementById('progressLabel').textContent = stepLabels[step-1];
+  document.getElementById('progressStep').textContent = toPersianNum(step) + ' از ' + toPersianNum(totalSteps);
+  document.getElementById('progressFill').style.width = ((step / totalSteps) * 100) + '%';
+}
+
+function showStep(n) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('step'+n);
+  if(el) { el.classList.add('active'); }
+  updateProgress(n);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function nextStep(from) { currentStep = from + 1; showStep(currentStep); }
+function prevStep(from) { currentStep = from - 1; showStep(currentStep); }
+
+function selectChip(el, groupId, multi) {
+  if(!multi) {
+    document.querySelectorAll('#'+groupId+' .chip').forEach(c => c.classList.remove('selected'));
+  }
+  el.classList.toggle('selected');
+}
+
+function selectCard(el, groupId, multi) {
+  if(!multi) {
+    document.querySelectorAll('#'+groupId+' .card-opt').forEach(c => c.classList.remove('selected'));
+  }
+  el.classList.toggle('selected');
+}
+
+function selectScale(el, groupId) {
+  document.querySelectorAll('#'+groupId+' .scale-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleConsent(el) { el.classList.toggle('checked'); }
+
+function getSelected(groupId) {
+  return Array.from(document.querySelectorAll('#'+groupId+' .selected'))
+    .map(el => el.querySelector('.card-title') ? el.querySelector('.card-title').textContent : el.textContent.trim())
+    .join('، ');
+}
+function getScaleVal(groupId) {
+  const sel = document.querySelector('#'+groupId+' .scale-btn.selected');
+  return sel ? sel.textContent.trim() : '—';
+}
+
+function summaryRow(key, val) {
+  if(!val || val === '—' || val === '') return '';
+  return `<div class="summary-row"><span class="summary-key">${key}</span><span class="summary-val">${val}</span></div>`;
+}
+
+function submitForm() {
+  const c1 = document.getElementById('c1').classList.contains('checked');
+  const c2 = document.getElementById('c2').classList.contains('checked');
+  const c3 = document.getElementById('c3').classList.contains('checked');
+  if(!c1 || !c2 || !c3) { alert('لطفاً همه موافقت‌ها رو تأیید کن 🙏'); return; }
+
+  // Gather data
+  const d = {
+    name: document.getElementById('f_name').value || '—',
+    phone: document.getElementById('f_phone').value || '—',
+    age: document.getElementById('f_age').value || '—',
+    gender: document.getElementById('f_gender').value || '—',
+    ref: getSelected('ref_chips'),
+    skinType: getSelected('skin_type'),
+    concerns: getSelected('concerns'),
+    goalToday: getSelected('goal_today'),
+    skinConditions: getSelected('skin_conditions'),
+    medications: getSelected('medications'),
+    recentProc: getSelected('recent_procedures'),
+    pregnancy: getSelected('pregnancy'),
+    allergies: document.getElementById('f_allergies').value || '—',
+    currentRoutine: getSelected('current_routine'),
+    sunscreen: getSelected('sunscreen'),
+    prevFacial: getSelected('prev_facial'),
+    skinReaction: getSelected('skin_reaction'),
+    water: getSelected('water'),
+    sleep: getSelected('sleep'),
+    stress: getScaleVal('stress_scale'),
+    diet: getSelected('diet'),
+    environment: getSelected('environment'),
+    notes: document.getElementById('f_notes').value || '—',
+  };
+
+  document.getElementById('sum_basic_content').innerHTML =
+    summaryRow('نام','') + // hide personal in print for privacy option
+    summaryRow('سن', d.age) +
+    summaryRow('جنسیت', d.gender) +
+    summaryRow('معرفی از طریق', d.ref);
+
+  document.getElementById('sum_skin_content').innerHTML =
+    summaryRow('نوع پوست', d.skinType) +
+    summaryRow('دغدغه‌های اصلی', d.concerns) +
+    summaryRow('هدف امروز', d.goalToday);
+
+  document.getElementById('sum_health_content').innerHTML =
+    summaryRow('بیماری پوستی', d.skinConditions) +
+    summaryRow('داروها', d.medications) +
+    summaryRow('اقدامات اخیر', d.recentProc) +
+    summaryRow('بارداری / شیردهی', d.pregnancy) +
+    summaryRow('آلرژی', d.allergies) +
+    summaryRow('واکنش به محصولات', d.skinReaction);
+
+  document.getElementById('sum_lifestyle_content').innerHTML =
+    summaryRow('روتین فعلی', d.currentRoutine) +
+    summaryRow('ضدآفتاب', d.sunscreen) +
+    summaryRow('سابقه فیشیال', d.prevFacial) +
+    summaryRow('آب مصرفی', d.water) +
+    summaryRow('خواب', d.sleep) +
+    summaryRow('سطح استرس', d.stress + ' از ۵') +
+    summaryRow('تغذیه', d.diet) +
+    summaryRow('محیط', d.environment) +
+    summaryRow('توضیحات', d.notes);
+
+  // ── Smart therapist alerts ──
+  const alerts = [];
+  const tips = [];
+
+  if(d.medications.includes('ایزوترتینوئین') || d.medications.includes('روآکوتان'))
+    alerts.push('⚠️ مصرف روآکوتان: از لایه‌برداری، استخراج و هر روش تهاجمی اجتناب شود.');
+  if(d.medications.includes('رتینوئید'))
+    alerts.push('⚠️ مصرف رتینوئید: پوست حساس به لایه‌برداری — سرعت و قدرت اگزفولیاسیون کاهش یابد.');
+  if(d.medications.includes('ضدانعقاد'))
+    alerts.push('⚠️ داروی ضدانعقاد: از استخراج قوی و میکرونیدلینگ خودداری شود.');
+  if(d.recentProc.includes('بوتاکس') || d.recentProc.includes('فیلر'))
+    alerts.push('⚠️ بوتاکس/فیلر اخیر: از ماساژ عمیق و دستگاه‌های RF در منطقه تزریق اجتناب شود.');
+  if(d.recentProc.includes('لیزر'))
+    alerts.push('⚠️ لیزر اخیر: پوست در مرحله بهبود — فقط مراقبت ملایم و آبرسانی.');
+  if(d.recentProc.includes('لایه‌برداری شیمیایی'))
+    alerts.push('⚠️ لایه‌برداری اخیر: از اگزفولیاسیون مجدد خودداری شود.');
+  if(d.skinConditions.includes('هرپس') || d.skinConditions.includes('تبخال'))
+    alerts.push('⚠️ سابقه هرپس: دستگاه‌های گرما‌زا (RF، لیزر) می‌توانند تریگر شوند. بررسی شود.');
+  if(d.pregnancy.includes('بارداری'))
+    alerts.push('⚠️ بارداری: از اسیدهای قوی، RF، میکرونیدلینگ و ضدعفونی‌های قوی اجتناب شود.');
+  if(d.pregnancy.includes('شیردهی'))
+    alerts.push('⚠️ شیردهی: از رتینوئیدها و برخی اسیدهای قوی اجتناب شود.');
+  if(d.skinConditions.includes('رزاسه'))
+    alerts.push('⚠️ رزاسه: از بخار داغ، اگزفولیاسیون مکانیکی و محرک‌های حرارتی اجتناب شود.');
+  if(d.allergies && d.allergies !== '—')
+    alerts.push('⚠️ آلرژی: ' + d.allergies + ' — محصولات را بررسی کنید.');
+
+  // ── Smart tips ──
+  if(d.skinType.includes('حساس') || d.skinReaction.includes('اغلب'))
+    tips.push('پروتکل ملایم + محصولات فاقد عطر و رنگ پیشنهاد می‌شود.');
+  if(d.concerns.includes('آکنه') || d.concerns.includes('جوش'))
+    tips.push('پاکسازی عمیق + LED آبی + محصولات بدون کومدوژنیک.');
+  if(d.concerns.includes('لک') || d.concerns.includes('تیرگی'))
+    tips.push('پروتکل روشن‌کنندگی با ویتامین C، آزلائیک اسید یا آلفا‌آربوتین.');
+  if(d.concerns.includes('چین و چروک') || d.concerns.includes('افتادگی'))
+    tips.push('RF یا اولتراسوند + پپتید و رتینول (اگر منع مصرف نداشته باشد).');
+  if(d.concerns.includes('منافذ'))
+    tips.push('هیدرودرمابریژن + ماسک کائولن + BHA.');
+  if(d.water.includes('کم'))
+    tips.push('آموزش مشتری برای افزایش مصرف آب — مستقیماً روی پوست تأثیر دارد.');
+  if(parseInt(d.stress) >= 4)
+    tips.push('استرس بالا → احتمال التهاب پوست بیشتر. توضیح ارتباط استرس-پوست به مشتری.');
+  if(d.sunscreen.includes('خیر') || d.sunscreen.includes('گاهی'))
+    tips.push('آموزش اهمیت ضدآفتاب روزانه ضروری است.');
+  if(d.prevFacial.includes('اولین'))
+    tips.push('اولین فیشیال! حساسیت‌سنجی با patch test توصیه می‌شود.');
+  if(d.diet.includes('شیرین') || d.diet.includes('فست'))
+    tips.push('رژیم غذایی پر از قند/فست‌فود — توضیح ارتباط تغذیه و آکنه.');
+  if(d.sleep.includes('کمتر از ۶'))
+    tips.push('کمبود خواب → کاهش بازسازی پوست. توصیه به بهبود کیفیت خواب.');
+
+  if(tips.length === 0) tips.push('پروفایل پوستی متعادل — پروتکل استاندارد پاکسازی مناسب است.');
+
+  const alertBox = document.getElementById('therapistAlert');
+  const alertList = document.getElementById('therapistAlertList');
+  if(alerts.length > 0) {
+    alertBox.style.display = 'block';
+    alertList.innerHTML = alerts.map(a => `<li>${a}</li>`).join('');
+  }
+
+  document.getElementById('therapistTipsList').innerHTML = tips.map(t => `<li>${t}</li>`).join('');
+
+  document.getElementById('formWrapper').classList.remove('active');
+  document.getElementById('summaryWrap').classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  // ── Send to Formspree → Cuckoofacial@gmail.com ──
+  const alertsSummary = alerts.length > 0 ? alerts.join('\n') : 'موردی ندارد';
+  const tipsSummary   = tips.join('\n');
+
+  const payload = {
+    '👤 نام':            d.name,
+    '📞 تلفن':           d.phone,
+    '🎂 سن':             d.age,
+    '🚻 جنسیت':         d.gender,
+    '📣 معرفی از طریق': d.ref,
+    '🌿 نوع پوست':       d.skinType,
+    '💬 دغدغه‌ها':       d.concerns,
+    '🎯 هدف امروز':      d.goalToday,
+    '🩺 بیماری پوستی':   d.skinConditions,
+    '💊 داروها':         d.medications,
+    '🔬 اقدامات اخیر':   d.recentProc,
+    '🤰 بارداری':        d.pregnancy,
+    '⚠️ آلرژی':          d.allergies,
+    '🧴 روتین فعلی':     d.currentRoutine,
+    '☀️ ضدآفتاب':        d.sunscreen,
+    '💆 سابقه فیشیال':   d.prevFacial,
+    '⚡ واکنش پوستی':    d.skinReaction,
+    '💧 آب مصرفی':       d.water,
+    '😴 خواب':           d.sleep,
+    '😰 استرس (از ۵)':   d.stress,
+    '🥗 تغذیه':          d.diet,
+    '🏙️ محیط':           d.environment,
+    '📝 توضیحات مشتری':  d.notes,
+    '─────────────────': '─────────────────────',
+    '🔴 هشدارهای تراپیست': alertsSummary,
+    '📋 پیشنهادات پروتکل': tipsSummary,
+  };
+
+  fetch('https://formspree.io/f/cuckoofacial', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(() => {}); // silent fail — UI already shown
+}
+</script>
+</body>
+</html>
